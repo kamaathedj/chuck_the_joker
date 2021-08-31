@@ -1,25 +1,25 @@
 import {computed,action,thunk}  from 'easy-peasy'
 import axios from 'axios';
-import AppState from '../utils'
+import AppState from '../utilities/utils'
 const jokes = {
     loadingState : AppState.loading,
-    jokes : [{
-        'value':'kamaa is crazy'
-    }],
-    count:computed((state)=>Object.values(state.jokes).length),
+    joke : {},
+    count:computed((state)=>Object.values(state.joke).length),
 
     getJokes :thunk(async(actions,category,state)=>{
-        
-      
+        actions.setState(AppState.loading)
         const res = await axios.get(`https://api.chucknorris.io/jokes/random?category=${category}`);
         actions.setJokes(res.data)
-        state.loadingState = AppState.loading; 
+        console.log(res.data)
+
+    }),
+
+    setState : action((state,payload)=>{
+        state.loadingState = payload
     }),
 
     setJokes: action((state,payload)=>{
-        console.log(payload)
-        state.jokes = payload
-       
+        state.joke =payload
         state.loadingState = AppState.done
     }),
 
