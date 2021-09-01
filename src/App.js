@@ -41,9 +41,10 @@ const App = ()=> {
   const {getJokes} = useStoreActions((state) => state.jokes);
   const {loadingState} = useStoreState((state) => state.jokes);
 
-  function handleClick(e){
-    e.preventDefault()
-    getJokes(e.currentTarget.innerHTML)
+ const handleClick = category =>event =>{
+    event.preventDefault()
+    console.log(category)
+    getJokes(category)
   }
   useEffect(() => {
     getJokes('dev')
@@ -53,7 +54,7 @@ const App = ()=> {
     <Wrapper>
       {categories.map(it => (
         
-        <Button key = {it}onClick={handleClick}>{it}</Button>  
+        <Button key = {it}onClick={handleClick(it)}>{it}</Button>  
       ))}
       <ScentedBox>
         {loadingState === state.loading ? <h3>loading ....</h3>:<Joke/>}
